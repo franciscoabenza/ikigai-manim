@@ -1,4 +1,4 @@
-from manimgl import *
+from manimlib import *
 
 class WeAreAllMemento(Scene):
     def construct(self):
@@ -8,7 +8,7 @@ class WeAreAllMemento(Scene):
 
         # Create the path
         path = Line(LEFT*5, RIGHT*5).shift(DOWN)
-        self.play(Create(path))
+        self.play(ShowCreation(path))
 
         # Create the character
         character = Dot(LEFT*5 + DOWN)
@@ -19,9 +19,9 @@ class WeAreAllMemento(Scene):
 
         # Introduce distractions
         distractions = [
-            Text("Social Media").scale(0.5).move_to(UP*2 + LEFT*1),
-            Text("Email").scale(0.5).move_to(UP*1 + LEFT*3),
-            Text("TV").scale(0.5).move_to(UP*2 + RIGHT*1)
+            Text("Emotional Aversion").scale(0.5).move_to(UP*2 + LEFT*1),
+            Text("Impostor Syndrom").scale(0.5).move_to(UP*1 + LEFT*3),
+            Text("Burnout").scale(0.5).move_to(UP*2 + RIGHT*1)
         ]
         for distraction in distractions:
             self.play(FadeIn(distraction))
@@ -44,7 +44,7 @@ class MonkeyBranchToBranch(Scene):
         for x in range(-5, 6, 2):
             branch = Line(UP*2, DOWN*2).shift(RIGHT*x)
             branches.append(branch)
-            self.play(Create(branch))
+            self.play(ShowCreation(branch))
 
         # Create the monkey (use a Dot as a placeholder)
         monkey = Dot(branches[0].get_top(), color=ORANGE)
@@ -64,15 +64,19 @@ class MonkeyBranchToBranch(Scene):
 
 class TheStringConcept(Scene):
     def construct(self):
-        # Create branches as in the previous example
-        # ...
+        # Create branches
+        branches = []
+        for x in range(-5, 6, 2):
+            branch = Line(UP*2, DOWN*2).shift(RIGHT*x)
+            branches.append(branch)
+            self.play(ShowCreation(branch))
 
         # Create the string
         string_points = [branch.get_top() for branch in branches]
         string = VMobject()
         string.set_points_smoothly(string_points)
         string.set_color(RED)
-        self.play(Create(string))
+        self.play(ShowCreation(string))
 
         # Move the monkey along the string
         monkey = Dot(branches[0].get_top(), color=ORANGE)
@@ -102,7 +106,7 @@ class EnvironmentalDesignPrinciples(Scene):
         # Scenario 2: Designed Environment
         self.play(FadeOut(clutter))
         path = Line(LEFT*5 + DOWN*2, RIGHT*5 + UP*2, color=GREEN)
-        self.play(Create(path))
+        self.play(ShowCreation(path))
         self.play(character.animate.move_to(LEFT*5 + DOWN*2), run_time=1)
         self.play(MoveAlongPath(character, path), run_time=5)
         self.wait(1)
@@ -115,7 +119,7 @@ class FeedbackLoops(Scene):
     def construct(self):
         # Create the intended path
         path = Line(LEFT*5, RIGHT*5, color=GREEN)
-        self.play(Create(path))
+        self.play(ShowCreation(path))
 
         # Character starts on the path
         character = Dot(LEFT*5, color=PURPLE)
@@ -128,13 +132,9 @@ class FeedbackLoops(Scene):
         # Feedback mechanism appears
         feedback = Arrow(character.get_center(), path.point_from_proportion(0.3), color=YELLOW)
         feedback_text = Text("Adjust Course").scale(0.5).next_to(feedback, UP)
-        self.play(Create(feedback), Write(feedback_text))
+        self.play(ShowCreation(feedback), Write(feedback_text))
 
         # Character returns to path
         self.play(character.animate.move_to(path.point_from_proportion(0.3)), run_time=2)
         self.wait(1)
 
-
-
-
-  manim -pql your_script.py SceneName
