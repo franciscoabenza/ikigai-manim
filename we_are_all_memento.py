@@ -1,5 +1,14 @@
 from manimlib import *
 
+
+
+class RotateAroundZAxis(Scene):
+    def construct(self):
+        square = Square()
+        self.add(square)
+        self.play(Rotate(square, angle=PI/2, axis=OUT))
+        self.wait()
+
 class WeAreAllMemento(Scene):
     def construct(self):
         # Create the goal
@@ -25,13 +34,35 @@ class WeAreAllMemento(Scene):
         ]
         for distraction in distractions:
             self.play(FadeIn(distraction))
+            
+        # Rotate distractions in yaw motion (around z-axis like a drone)
+        for distraction in distractions:
+            self.play(
+                Rotate(
+                    distraction,
+                    angle=PI,  # Full 360° rotation
+                    axis=OUT,  # Rotate around z-axis
+                    run_time=0.1  # Duration of animation in seconds
+                )
+            )
 
-        # Character gets distracted
-        self.play(character.animate.move_to(distractions[0].get_center()), run_time=2)
-        self.wait(1)
-        # Character forgets the goal
-        self.play(FadeOut(goal), FadeOut(path))
-        self.wait(1)
+        # the length of the distraction[0] can be calculated like this:
+        distractions[0].get_width() or distractions[0].get_height()
+        
+        #now we will create line of that length perpendicular to the path and not parallel to the path
+        
+        distraction_line = Line(LEFT*5, LEFT*5 + distractions[2].get_width()*RIGHT, color=RED)
+            
+        self.play(ShowCreation(distraction_line))    
+            
+            
+
+        # # Character gets distracted
+        # self.play(character.animate.move_to(distractions[0].get_center()), run_time=2)
+        # self.wait(1)
+        # # Character forgets the goal
+        # self.play(FadeOut(goal), FadeOut(path))
+        # self.wait(1)
 
 
 ### **B. "Monkey Branch to Branch" Metaphor**
